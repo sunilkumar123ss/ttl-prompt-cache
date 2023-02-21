@@ -1,0 +1,11 @@
+{
+  "slug": "ttl-prompt-cache",
+  "title": "TTL prompt cache",
+  "description": "Demonstrate a local SQLite response cache with contextual request hashes, explicit TTL expiration, upserts, persistence and process-local hit/miss statistics.",
+  "category": "evaluation",
+  "demo_args": [
+    "--input",
+    "example.json"
+  ],
+  "expected_exit": 0
+}

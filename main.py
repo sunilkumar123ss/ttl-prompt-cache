@@ -18,3 +18,9 @@ def cache_key(model, prompt, parameters, namespace="v1"):
                      separators=(",", ":"), allow_nan=False)
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 
+
+def finite(value, name):
+    if type(value) not in (int, float) or not math.isfinite(value):
+        raise ValueError(f"{name} must be a finite number")
+    return value
+

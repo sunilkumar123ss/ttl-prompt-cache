@@ -24,3 +24,44 @@ def finite(value, name):
         raise ValueError(f"{name} must be a finite number")
     return value
 
+
+class PromptCache:
+    def __init__(self, path=":memory:"):
+        self.connection = sqlite3.connect(path)
+        self.connection.execute("CREATE TABLE IF NOT EXISTS cache (key TEXT PRIMARY KEY, value TEXT NOT NULL, expires REAL NOT NULL)")
+        self.hits, self.misses = 0, 0
+
+    def put(self, key, value, ttl_seconds, now):
+        finite(now, "now")
+        finite(ttl_seconds, "ttl_seconds")
+        if ttl_seconds <= 0 or not math.isfinite(now + ttl_seconds):
+            raise ValueError("ttl_seconds must be positive with a finite expiration")
+        encoded = json.dumps(value, allow_nan=False)
+        with self.connection:
+            self.connection.execute("INSERT INTO cache VALUES (?, ?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value, expires=excluded.expires",
+                                    (key, encoded, now + ttl_seconds))
+
+    def get(self, key, now):
+        finite(now, "now")
+        row = self.connection.execute("SELECT value, expires FROM cache WHERE key=?", (key,)).fetchone()
+        if row is None or row[1] <= now:
+            self.misses += 1
+            return {"hit": False, "value": None}
+        self.hits += 1
+        return {"hit": True, "value": json.loads(row[0]), "expires_at": row[1]}
+
+    def expire(self, now):
+        finite(now, "now")
+        with self.connection:
+            return self.connection.execute("DELETE FROM cache WHERE expires <= ?", (now,)).rowcount
+
+    def stats(self, now):
+        finite(now, "now")
+        active = self.connection.execute("SELECT count(*) FROM cache WHERE expires > ?", (now,)).fetchone()[0]
+        total = self.connection.execute("SELECT count(*) FROM cache").fetchone()[0]
+        return {"active_entries": active, "expired_entries": total - active,
+                "session_hits": self.hits, "session_misses": self.misses}
+
+    def close(self):
+        self.connection.close()
+

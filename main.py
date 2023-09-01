@@ -65,3 +65,30 @@ class PromptCache:
     def close(self):
         self.connection.close()
 
+
+def execute(cache, operations):
+    if not isinstance(operations, list):
+        raise ValueError("operations must be a list")
+    results = []
+    for operation in operations:
+        if not isinstance(operation, dict):
+            raise ValueError("each operation must be an object")
+        now = operation.get("now", time.time())
+        action = operation["op"]
+        if action in ("put", "get"):
+            key = cache_key(operation["model"], operation["prompt"], operation.get("parameters", {}),
+                            operation.get("namespace", "v1"))
+            if action == "put":
+                cache.put(key, operation["value"], operation["ttl_seconds"], now)
+                result = {"stored": True, "key": key}
+            else:
+                result = cache.get(key, now)
+        elif action == "expire":
+            result = {"deleted": cache.expire(now)}
+        elif action == "stats":
+            result = cache.stats(now)
+        else:
+            raise ValueError(f"unknown operation: {action}")
+        results.append(result)
+    return results
+

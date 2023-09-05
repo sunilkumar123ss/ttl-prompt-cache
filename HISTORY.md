@@ -4,7 +4,7 @@ This reference implementation and all of the following milestone commits were pr
 
 **Every recorded author and committer date in this timeline is synthetic. These dates are not evidence that the code was written, tested, deployed, or used professionally in the past.**
 
-This snapshot is milestone 6 of 15. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
+This snapshot is milestone 7 of 15. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
 
 The progression decomposes already-completed October 2026 code into meaningful additions. It is not recovered original development history. Publication time is separate from the synthetic Git timestamps.
 
@@ -18,7 +18,7 @@ The progression decomposes already-completed October 2026 code into meaningful a
 | 4 | 2023-05-05T13:26:55+05:30 | Implement finite (present) |
 | 5 | 2023-06-10T19:04:01+05:30 | Implement PromptCache (present) |
 | 6 | 2023-09-01T18:06:36+05:30 | Implement execute (present) |
-| 7 | 2023-09-05T13:52:56+05:30 | Expose the command-line demonstration and input handling (later stage) |
+| 7 | 2023-09-05T13:52:56+05:30 | Expose the command-line demonstration and input handling (present) |
 | 8 | 2023-11-16T13:28:46+05:30 | Test ttl boundary and null value (later stage) |
 | 9 | 2023-12-03T17:49:00+05:30 | Test complete context and canonical parameters (later stage) |
 | 10 | 2024-02-07T12:06:28+05:30 | Test persistent upsert (later stage) |

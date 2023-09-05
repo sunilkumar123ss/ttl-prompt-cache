@@ -92,3 +92,29 @@ def execute(cache, operations):
         results.append(result)
     return results
 
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--input", required=True)
+    parser.add_argument("--db", default=":memory:", help="SQLite path; default is ephemeral")
+    args = parser.parse_args()
+    cache = None
+    try:
+        input_path = Path(args.input)
+        if not input_path.is_absolute():
+            input_path = Path(__file__).resolve().parent / input_path
+        with input_path.open(encoding="utf-8") as handle:
+            data = json.load(handle)
+        cache = PromptCache(args.db)
+        print(json.dumps(execute(cache, data["operations"]), indent=2, allow_nan=False))
+        return 0
+    except (ValueError, KeyError, TypeError, OSError, sqlite3.Error) as error:
+        print(f"Cache operation failed: {error}", file=sys.stderr)
+        return 2
+    finally:
+        if cache:
+            cache.close()
+
+
+if __name__ == "__main__":
+    sys.exit(main())

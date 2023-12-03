@@ -16,3 +16,9 @@ class CacheTests(unittest.TestCase):
         self.assertEqual(self.cache.expire(105), 1)
         self.assertEqual(self.cache.stats(105)["session_misses"], 1)
 
+    def test_complete_context_and_canonical_parameters(self):
+        a = cache_key("m", "question", {"b": 2, "a": 1})
+        self.assertEqual(a, cache_key("m", "question", {"a": 1, "b": 2}))
+        self.assertNotEqual(a, cache_key("m", "question", {"a": 1, "b": 2}, "v2"))
+        self.assertNotEqual(a, cache_key("m2", "question", {"a": 1, "b": 2}))
+

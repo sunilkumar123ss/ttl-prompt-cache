@@ -22,3 +22,16 @@ class CacheTests(unittest.TestCase):
         self.assertNotEqual(a, cache_key("m", "question", {"a": 1, "b": 2}, "v2"))
         self.assertNotEqual(a, cache_key("m2", "question", {"a": 1, "b": 2}))
 
+    def test_persistent_upsert(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as directory:
+            path = str(Path(directory) / "cache.sqlite")
+            first = PromptCache(path)
+            first.put("key", "old", 10, 0)
+            first.put("key", "new", 20, 0)
+            first.close()
+            second = PromptCache(path)
+            try:
+                self.assertEqual(second.get("key", 15)["value"], "new")
+            finally:
+                second.close()
+

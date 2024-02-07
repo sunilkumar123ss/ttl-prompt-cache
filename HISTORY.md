@@ -4,7 +4,7 @@ This reference implementation and all of the following milestone commits were pr
 
 **Every recorded author and committer date in this timeline is synthetic. These dates are not evidence that the code was written, tested, deployed, or used professionally in the past.**
 
-This snapshot is milestone 9 of 15. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
+This snapshot is milestone 10 of 15. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
 
 The progression decomposes already-completed October 2026 code into meaningful additions. It is not recovered original development history. Publication time is separate from the synthetic Git timestamps.
 
@@ -21,7 +21,7 @@ The progression decomposes already-completed October 2026 code into meaningful a
 | 7 | 2023-09-05T13:52:56+05:30 | Expose the command-line demonstration and input handling (present) |
 | 8 | 2023-11-16T13:28:46+05:30 | Test ttl boundary and null value (present) |
 | 9 | 2023-12-03T17:49:00+05:30 | Test complete context and canonical parameters (present) |
-| 10 | 2024-02-07T12:06:28+05:30 | Test persistent upsert (later stage) |
+| 10 | 2024-02-07T12:06:28+05:30 | Test persistent upsert (present) |
 | 11 | 2024-04-22T19:38:06+05:30 | Test rejects nonobject operations (later stage) |
 | 12 | 2025-02-01T17:30:23+05:30 | Test invalid operations (later stage) |
 | 13 | 2025-05-29T10:48:42+05:30 | Add one-command test, demonstration and CLI verification (later stage) |

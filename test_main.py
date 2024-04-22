@@ -35,3 +35,8 @@ class CacheTests(unittest.TestCase):
             finally:
                 second.close()
 
+    def test_rejects_nonobject_operations(self):
+        for value in (None, [], "get", 2):
+            with self.subTest(value=value), self.assertRaisesRegex(ValueError, "operation must"):
+                execute(self.cache, [value])
+

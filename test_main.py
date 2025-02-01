@@ -40,3 +40,14 @@ class CacheTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaisesRegex(ValueError, "operation must"):
                 execute(self.cache, [value])
 
+    def test_invalid_operations(self):
+        with self.assertRaises(ValueError):
+            self.cache.put("key", "value", 0, 1)
+        with self.assertRaises(ValueError):
+            cache_key("m", "prompt", {"temperature": float("nan")})
+        with self.assertRaises(ValueError):
+            execute(self.cache, [{"op": "unknown"}])
+
+
+if __name__ == "__main__":
+    unittest.main()
